@@ -1,0 +1,26 @@
+# Backend
+backend/.env
+backend/template_manager.db
+backend/go.sum
+
+# Frontend
+frontend/.next/
+frontend/node_modules/
+frontend/.env.local
+frontend/.env.production.local
+frontend/.env.development.local
+
+# General
+.DS_Store
+*.log
+tmp/
+temp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
