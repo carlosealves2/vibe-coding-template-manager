@@ -5,11 +5,14 @@ import (
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	gormlogger "gorm.io/gorm/logger"
 )
 
 // NewDatabase cria uma nova conexão com o banco de dados
 func NewDatabase() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open("template_manager.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("template_manager.db"), &gorm.Config{
+		Logger: gormlogger.Default.LogMode(gormlogger.Warn),
+	})
 	if err != nil {
 		return nil, err
 	}
