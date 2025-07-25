@@ -93,7 +93,7 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
           </div>
 
           {error && (
-            <div className="text-red-600 text-sm">{error}</div>
+            <div className="text-destructive text-sm">{error}</div>
           )}
 
           <div className="flex gap-2 pt-4">

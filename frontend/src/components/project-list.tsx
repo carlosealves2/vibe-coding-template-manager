@@ -48,11 +48,11 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'creating':
-        return <Clock className="h-4 w-4 text-yellow-600" />;
+        return <Clock className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />;
       case 'ready':
-        return <CheckCircle className="h-4 w-4 text-green-600" />;
+        return <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />;
       case 'error':
-        return <XCircle className="h-4 w-4 text-red-600" />;
+        return <XCircle className="h-4 w-4 text-destructive" />;
       default:
         return null;
     }
@@ -72,13 +72,13 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading projects...</div>;
+    return <div className="text-center py-8 text-muted-foreground">Loading projects...</div>;
   }
 
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-red-600 mb-4">{error}</p>
+        <p className="text-destructive mb-4">{error}</p>
         <Button onClick={fetchProjects}>Retry</Button>
       </div>
     );
@@ -87,8 +87,8 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   if (projects.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-600 mb-4">No projects found</p>
-        <p className="text-sm text-gray-500">Create your first project from a template</p>
+        <p className="text-muted-foreground mb-4">No projects found</p>
+        <p className="text-sm text-muted-foreground">Create your first project from a template</p>
       </div>
     );
   }
@@ -104,7 +104,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
                 size="sm"
                 variant="ghost"
                 onClick={() => handleDelete(project.id)}
-                className="text-red-600 hover:text-red-700"
+                className="text-destructive hover:text-destructive"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -130,7 +130,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
                     href={project.git_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline truncate"
+                    className="text-primary hover:underline truncate"
                   >
                     View Repository
                   </a>
@@ -149,7 +149,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
               ))}
             </div>
 
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-muted-foreground">
               Created: {new Date(project.created_at).toLocaleDateString()}
             </div>
           </CardContent>

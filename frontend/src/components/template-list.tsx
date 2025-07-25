@@ -47,13 +47,13 @@ export function TemplateList({ onEdit, refreshTrigger }: TemplateListProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading templates...</div>;
+    return <div className="text-center py-8 text-muted-foreground">Loading templates...</div>;
   }
 
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-red-600 mb-4">{error}</p>
+        <p className="text-destructive mb-4">{error}</p>
         <Button onClick={fetchTemplates}>Retry</Button>
       </div>
     );
@@ -62,8 +62,8 @@ export function TemplateList({ onEdit, refreshTrigger }: TemplateListProps) {
   if (templates.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-600 mb-4">No templates found</p>
-        <p className="text-sm text-gray-500">Create your first template to get started</p>
+        <p className="text-muted-foreground mb-4">No templates found</p>
+        <p className="text-sm text-muted-foreground">Create your first template to get started</p>
       </div>
     );
   }
@@ -87,7 +87,7 @@ export function TemplateList({ onEdit, refreshTrigger }: TemplateListProps) {
                   size="sm"
                   variant="ghost"
                   onClick={() => handleDelete(template.id)}
-                  className="text-red-600 hover:text-red-700"
+                  className="text-destructive hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -96,7 +96,7 @@ export function TemplateList({ onEdit, refreshTrigger }: TemplateListProps) {
           </CardHeader>
           <CardContent className="space-y-3">
             {template.description && (
-              <p className="text-sm text-gray-600 line-clamp-2">
+              <p className="text-sm text-muted-foreground line-clamp-2">
                 {template.description}
               </p>
             )}
@@ -107,7 +107,7 @@ export function TemplateList({ onEdit, refreshTrigger }: TemplateListProps) {
                 href={template.git_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline truncate"
+                className="text-primary hover:underline truncate"
               >
                 {template.git_url}
               </a>
@@ -124,7 +124,7 @@ export function TemplateList({ onEdit, refreshTrigger }: TemplateListProps) {
               ))}
             </div>
 
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-muted-foreground">
               Created: {new Date(template.created_at).toLocaleDateString()}
             </div>
           </CardContent>

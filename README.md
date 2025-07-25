@@ -8,6 +8,7 @@ Uma aplicação completa para gerenciar templates de repositórios Git e criar n
 - **Criação de Projetos**: Crie novos projetos a partir de templates existentes
 - **Integração com GitHub**: Criação automática de repositórios no GitHub
 - **Interface Moderna**: Frontend responsivo com Next.js e shadcn/ui
+- **Tema Claro/Escuro**: Suporte completo a temas com alternância automática
 - **API RESTful**: Backend robusto em Go com Fiber v2
 
 ## Arquitetura
@@ -24,6 +25,8 @@ Uma aplicação completa para gerenciar templates de repositórios Git e criar n
 - **TypeScript**: Tipagem estática
 - **shadcn/ui**: Componentes modernos e acessíveis
 - **Tailwind CSS**: Estilização utilitária
+- **next-themes**: Sistema de temas claro/escuro
+- **Responsive Design**: Interface adaptável a todos os dispositivos
 
 ## Pré-requisitos
 
@@ -53,7 +56,7 @@ cp .env.example .env
 
 4. Edite o arquivo `.env` com suas credenciais do GitHub:
 ```env
-PORT=8080
+PORT=8081
 GITHUB_TOKEN=seu_token_aqui
 GITHUB_USERNAME=seu_usuario_aqui
 ```
@@ -83,9 +86,18 @@ npm run dev
 ## Uso
 
 1. Acesse `http://localhost:3000` no seu navegador
-2. Vá para "Templates" para cadastrar seus repositórios favoritos
-3. Vá para "Projects" para criar novos projetos a partir dos templates
-4. Ao criar um projeto, um novo repositório será criado no seu GitHub
+2. Use o botão de alternância de tema no canto superior direito
+3. Vá para "Templates" para cadastrar seus repositórios favoritos
+4. Vá para "Projects" para criar novos projetos a partir dos templates
+5. Ao criar um projeto, um novo repositório será criado no seu GitHub
+
+## Funcionalidades do Tema
+
+- **Tema Automático**: Detecta automaticamente a preferência do sistema
+- **Alternância Manual**: Botão para alternar entre claro e escuro
+- **Persistência**: Lembra da preferência do usuário
+- **Transições Suaves**: Animações elegantes na mudança de tema
+- **Componentes Adaptativos**: Todos os componentes se adaptam ao tema
 
 ## API Endpoints
 
@@ -122,6 +134,9 @@ template-manager/
     ├── src/
     │   ├── app/
     │   ├── components/
+    │   │   ├── ui/           # Componentes shadcn/ui
+    │   │   ├── theme-provider.tsx
+    │   │   └── theme-toggle.tsx
     │   ├── lib/
     │   └── types/
     └── public/
@@ -143,7 +158,18 @@ template-manager/
 - React 18
 - shadcn/ui
 - Tailwind CSS
+- next-themes (Sistema de temas)
 - Lucide React (Ícones)
+
+## Screenshots
+
+### Tema Claro
+- Interface limpa e moderna com cores suaves
+- Boa legibilidade em ambientes bem iluminados
+
+### Tema Escuro
+- Interface elegante com cores escuras
+- Reduz o cansaço visual em ambientes com pouca luz
 
 ## Contribuição
 
