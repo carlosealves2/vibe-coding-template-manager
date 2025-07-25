@@ -23,8 +23,8 @@ export default function ProjectsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Projects</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-3xl font-bold">Projects</h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-1">
             View and manage your created projects
           </p>
         </div>

@@ -111,7 +111,7 @@ export function TemplateForm({ template, onSuccess, onCancel }: TemplateFormProp
           </div>
 
           {error && (
-            <div className="text-destructive text-sm">{error}</div>
+            <div className="text-red-600 dark:text-red-400 text-sm">{error}</div>
           )}
 
           <div className="flex gap-2 pt-4">

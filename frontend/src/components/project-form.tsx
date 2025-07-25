@@ -28,7 +28,7 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
       try {
         const data = await apiClient.getTemplates();
         setTemplates(data || []);
-      } catch (err) {
+      } catch {
         setError('Failed to fetch templates');
       }
     };
@@ -93,7 +93,7 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
           </div>
 
           {error && (
-            <div className="text-destructive text-sm">{error}</div>
+            <div className="text-red-600 dark:text-red-400 text-sm">{error}</div>
           )}
 
           <div className="flex gap-2 pt-4">

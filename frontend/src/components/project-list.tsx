@@ -52,7 +52,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
       case 'ready':
         return <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />;
       case 'error':
-        return <XCircle className="h-4 w-4 text-destructive" />;
+        return <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />;
       default:
         return null;
     }
@@ -72,13 +72,13 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-8 text-muted-foreground">Loading projects...</div>;
+    return <div className="text-center py-8 text-gray-600 dark:text-gray-300">Loading projects...</div>;
   }
 
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-destructive mb-4">{error}</p>
+        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
         <Button onClick={fetchProjects}>Retry</Button>
       </div>
     );
@@ -87,8 +87,8 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   if (projects.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-muted-foreground mb-4">No projects found</p>
-        <p className="text-sm text-muted-foreground">Create your first project from a template</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">No projects found</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">Create your first project from a template</p>
       </div>
     );
   }
@@ -104,7 +104,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
                 size="sm"
                 variant="ghost"
                 onClick={() => handleDelete(project.id)}
-                className="text-destructive hover:text-destructive"
+                className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -130,7 +130,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
                     href={project.git_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline truncate"
+                    className="text-blue-600 dark:text-blue-400 hover:underline truncate"
                   >
                     View Repository
                   </a>
@@ -149,7 +149,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
               ))}
             </div>
 
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-gray-500 dark:text-gray-400">
               Created: {new Date(project.created_at).toLocaleDateString()}
             </div>
           </CardContent>
