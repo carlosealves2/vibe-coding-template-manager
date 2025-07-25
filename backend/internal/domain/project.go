@@ -6,9 +6,10 @@ import (
 
 // Project representa um projeto criado a partir de um template
 type Project struct {
-	ID         uint      `json:"id" gorm:"primaryKey"`
-	Name       string    `json:"name" gorm:"not null"`
-	GitURL     string    `json:"git_url" gorm:"not null"`
+	ID   uint   `json:"id" gorm:"primaryKey"`
+	Name string `json:"name" gorm:"not null"`
+	// GitURL pode ser preenchido após a criação do repositório no GitHub
+	GitURL     string    `json:"git_url"`
 	TemplateID uint      `json:"template_id" gorm:"not null"`
 	Template   Template  `json:"template" gorm:"foreignKey:TemplateID"`
 	Status     string    `json:"status" gorm:"default:'creating'"`
