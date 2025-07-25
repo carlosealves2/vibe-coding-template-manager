@@ -6,18 +6,18 @@ import { FileText, FolderPlus, GitBranch } from 'lucide-react';
 export default function HomePage() {
   return (
     <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">
+      <div className="text-center space-y-4">
+        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
           Template Manager
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Manage your project templates and create new projects with ease. 
+        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          Manage your project templates and create new projects with ease.
           Store your favorite repository templates and generate new projects instantly.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        <Card className="hover:shadow-lg transition-shadow bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="hover:shadow-lg transition-shadow bg-white/70 dark:bg-gray-800/50 backdrop-blur border-gray-200 dark:border-gray-700">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
@@ -37,7 +37,7 @@ export default function HomePage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-shadow bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="hover:shadow-lg transition-shadow bg-white/70 dark:bg-gray-800/50 backdrop-blur border-gray-200 dark:border-gray-700">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FolderPlus className="h-5 w-5" />
@@ -58,7 +58,7 @@ export default function HomePage() {
         </Card>
       </div>
 
-      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 max-w-4xl mx-auto border border-gray-200 dark:border-gray-700">
+      <div className="bg-white/70 dark:bg-gray-800/50 backdrop-blur rounded-lg p-6 max-w-4xl mx-auto border border-gray-200 dark:border-gray-700">
         <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
           <GitBranch className="h-6 w-6" />
           How it works
