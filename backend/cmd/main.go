@@ -1,29 +1,33 @@
 package main
 
 import (
-	"log"
+	"github.com/phuslu/log"
 	"template-manager-backend/internal/config"
 	"template-manager-backend/internal/handler"
 	"template-manager-backend/internal/repository"
 	"template-manager-backend/internal/usecase"
 	"template-manager-backend/pkg/database"
 	"template-manager-backend/pkg/github"
+	appLogger "template-manager-backend/pkg/logger"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	fiberlogger "github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func main() {
+	// Configure application logger
+	appLogger.Init()
+
 	// Carregar configuração
 	cfg, err := config.LoadConfig()
 	if err != nil {
-		log.Fatal("Failed to load config:", err)
+		log.Fatal().Err(err).Msg("Failed to load config")
 	}
 
 	// Conectar ao banco de dados
 	db, err := database.NewDatabase()
 	if err != nil {
-		log.Fatal("Failed to connect to database:", err)
+		log.Fatal().Err(err).Msg("Failed to connect to database")
 	}
 
 	// Inicializar repositórios
@@ -55,18 +59,18 @@ func main() {
 	})
 
 	// Middlewares
-	app.Use(logger.New())
-	
+	app.Use(fiberlogger.New())
+
 	// CORS básico
 	app.Use(func(c *fiber.Ctx) error {
 		c.Set("Access-Control-Allow-Origin", "*")
 		c.Set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
 		c.Set("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,Authorization")
-		
+
 		if c.Method() == "OPTIONS" {
 			return c.SendStatus(fiber.StatusNoContent)
 		}
-		
+
 		return c.Next()
 	})
 
@@ -96,6 +100,6 @@ func main() {
 	})
 
 	// Iniciar servidor
-	log.Printf("Server starting on port %s", cfg.Port)
-	log.Fatal(app.Listen(":" + cfg.Port))
+	log.Info().Str("port", cfg.Port).Msg("Server starting")
+	log.Fatal().Err(app.Listen(":" + cfg.Port)).Msg("server exited")
 }

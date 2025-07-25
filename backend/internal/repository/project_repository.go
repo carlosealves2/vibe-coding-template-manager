@@ -4,6 +4,7 @@ import (
 	"context"
 	"template-manager-backend/internal/domain"
 
+	"github.com/phuslu/log"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +20,12 @@ func NewProjectRepository(db *gorm.DB) domain.ProjectRepository {
 
 // Create cria um novo projeto
 func (r *projectRepository) Create(ctx context.Context, project *domain.Project) error {
-	return r.db.WithContext(ctx).Create(project).Error
+	if err := r.db.WithContext(ctx).Create(project).Error; err != nil {
+		log.Error().Err(err).Str("name", project.Name).Msg("failed to insert project")
+		return err
+	}
+	log.Info().Uint("id", project.ID).Msg("project inserted")
+	return nil
 }
 
 // GetByID busca um projeto por ID
