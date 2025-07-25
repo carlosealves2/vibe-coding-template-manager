@@ -9,7 +9,7 @@ require (
 	golang.org/x/oauth2 v0.15.0
 	gorm.io/driver/sqlite v1.5.4
        gorm.io/gorm v1.25.5
-       github.com/phuslu/log v0.5.0
+       github.com/phuslu/log v0.6.0
 )
 
 require (
