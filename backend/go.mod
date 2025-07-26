@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.0
-	github.com/google/go-github/v57 v57.0.0
+       github.com/google/go-github/v74 v74.0.0
 	github.com/joho/godotenv v1.4.0
 	golang.org/x/oauth2 v0.15.0
 	gorm.io/driver/sqlite v1.5.4
