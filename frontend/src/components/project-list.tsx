@@ -1,13 +1,20 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Project } from '@/types';
-import { apiClient } from '@/lib/api';
-import { Trash2, ExternalLink, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Project } from "@/types";
+import { apiClient } from "@/lib/api";
+import {
+  Trash2,
+  ExternalLink,
+  Clock,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 
 interface ProjectListProps {
   refreshTrigger?: number;
@@ -25,7 +32,7 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
       setProjects(data || []);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch projects');
+      setError(err instanceof Error ? err.message : "Failed to fetch projects");
     } finally {
       setLoading(false);
     }
@@ -36,23 +43,27 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   }, [refreshTrigger]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this project?')) return;
+    if (!confirm("Are you sure you want to delete this project?")) return;
 
     try {
       await apiClient.deleteProject(id);
-      setProjects(prev => prev.filter(p => p.id !== id));
+      setProjects((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete project');
+      setError(err instanceof Error ? err.message : "Failed to delete project");
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'creating':
-        return <Clock className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />;
-      case 'ready':
-        return <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />;
-      case 'error':
+      case "creating":
+        return (
+          <Clock className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+        );
+      case "ready":
+        return (
+          <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+        );
+      case "error":
         return <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />;
       default:
         return null;
@@ -61,14 +72,14 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
 
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case 'creating':
-        return 'secondary';
-      case 'ready':
-        return 'default';
-      case 'error':
-        return 'destructive';
+      case "creating":
+        return "secondary";
+      case "ready":
+        return "default";
+      case "error":
+        return "destructive";
       default:
-        return 'outline';
+        return "outline";
     }
   };
 
@@ -102,8 +113,12 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   if (projects.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-600 dark:text-gray-300 mb-4">No projects found</p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">Create your first project from a template</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          No projects found
+        </p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Create your first project from a template
+        </p>
       </div>
     );
   }
@@ -114,7 +129,14 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
         <Card key={project.id} className="hover:shadow-lg transition-shadow">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
-              <CardTitle className="text-lg">{project.name}</CardTitle>
+              <CardTitle className="text-lg">
+                <Link
+                  href={`/projects/${project.id}`}
+                  className="hover:underline"
+                >
+                  {project.name}
+                </Link>
+              </CardTitle>
               <Button
                 size="sm"
                 variant="ghost"
@@ -135,9 +157,10 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
 
             <div className="space-y-2">
               <div className="text-sm">
-                <span className="font-medium">Template:</span> {project.template?.name}
+                <span className="font-medium">Template:</span>{" "}
+                {project.template?.name}
               </div>
-              
+
               {project.git_url && (
                 <div className="flex items-center gap-2 text-sm">
                   <ExternalLink className="h-4 w-4" />
@@ -157,11 +180,12 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
               {project.template?.language && (
                 <Badge variant="secondary">{project.template.language}</Badge>
               )}
-              {project.template?.tags && project.template.tags.split(',').map((tag, index) => (
-                <Badge key={index} variant="outline">
-                  {tag.trim()}
-                </Badge>
-              ))}
+              {project.template?.tags &&
+                project.template.tags.split(",").map((tag, index) => (
+                  <Badge key={index} variant="outline">
+                    {tag.trim()}
+                  </Badge>
+                ))}
             </div>
 
             <div className="text-xs text-gray-500 dark:text-gray-400">
