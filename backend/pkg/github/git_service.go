@@ -50,10 +50,14 @@ func (s *gitService) CreateRepository(ctx context.Context, name, description str
 		Private:     github.Bool(false),
 	}
 
-	createdRepo, _, err := s.client.Repositories.Create(ctx, "", repo)
-	if err != nil {
-		return "", fmt.Errorf("failed to create repository: %w", err)
-	}
+       owner := ""
+       if s.username != "" {
+               owner = s.username
+       }
+       createdRepo, _, err := s.client.Repositories.Create(ctx, owner, repo)
+       if err != nil {
+               return "", fmt.Errorf("failed to create repository: %w", err)
+       }
 
 	return createdRepo.GetCloneURL(), nil
 }
