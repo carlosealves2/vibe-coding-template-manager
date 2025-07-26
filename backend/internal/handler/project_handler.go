@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"bufio"
+	"fmt"
 	"strconv"
 	"template-manager-backend/internal/domain"
 	"template-manager-backend/internal/usecase"
@@ -88,4 +90,24 @@ func (h *ProjectHandler) DeleteProject(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusNoContent).Send(nil)
+}
+
+// StreamLogs envia os logs de criação do projeto via SSE.
+func (h *ProjectHandler) StreamLogs(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid project ID"})
+	}
+
+	c.Set("Content-Type", "text/event-stream")
+	c.Set("Cache-Control", "no-cache")
+	c.Context().SetBodyStreamWriter(func(w *bufio.Writer) {
+		ch := h.projectUseCase.SubscribeLogs(uint(id))
+		for msg := range ch {
+			fmt.Fprintf(w, "data: %s\n\n", msg)
+			w.Flush()
+		}
+	})
+	return nil
 }

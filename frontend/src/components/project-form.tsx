@@ -1,13 +1,20 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CreateProjectRequest, Template } from '@/types';
-import { apiClient } from '@/lib/api';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CreateProjectRequest, Template } from "@/types";
+import { apiClient } from "@/lib/api";
 
 interface ProjectFormProps {
   onSuccess: () => void;
@@ -17,11 +24,12 @@ interface ProjectFormProps {
 export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [formData, setFormData] = useState<CreateProjectRequest>({
-    name: '',
+    name: "",
     template_id: 0,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -29,7 +37,7 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
         const data = await apiClient.getTemplates();
         setTemplates(data || []);
       } catch {
-        setError('Failed to fetch templates');
+        setError("Failed to fetch templates");
       }
     };
 
@@ -42,17 +50,21 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
     setError(null);
 
     try {
-      await apiClient.createProject(formData);
+      const project = await apiClient.createProject(formData);
       onSuccess();
+      router.push(`/projects/${project.id}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (field: keyof CreateProjectRequest, value: string | number) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleChange = (
+    field: keyof CreateProjectRequest,
+    value: string | number,
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -67,7 +79,7 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
             <Input
               id="name"
               value={formData.name}
-              onChange={(e) => handleChange('name', e.target.value)}
+              onChange={(e) => handleChange("name", e.target.value)}
               placeholder="my-awesome-project"
               required
             />
@@ -77,7 +89,9 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
             <Label htmlFor="template">Template</Label>
             <Select
               value={formData.template_id.toString()}
-              onValueChange={(value) => handleChange('template_id', parseInt(value))}
+              onValueChange={(value) =>
+                handleChange("template_id", parseInt(value))
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select a template" />
@@ -93,12 +107,17 @@ export function ProjectForm({ onSuccess, onCancel }: ProjectFormProps) {
           </div>
 
           {error && (
-            <div className="text-red-600 dark:text-red-400 text-sm">{error}</div>
+            <div className="text-red-600 dark:text-red-400 text-sm">
+              {error}
+            </div>
           )}
 
           <div className="flex gap-2 pt-4">
-            <Button type="submit" disabled={loading || formData.template_id === 0}>
-              {loading ? 'Creating...' : 'Create Project'}
+            <Button
+              type="submit"
+              disabled={loading || formData.template_id === 0}
+            >
+              {loading ? "Creating..." : "Create Project"}
             </Button>
             <Button type="button" variant="outline" onClick={onCancel}>
               Cancel
