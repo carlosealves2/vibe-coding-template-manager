@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Project } from '@/types';
 import { apiClient } from '@/lib/api';
 import { Trash2, ExternalLink, Clock, CheckCircle, XCircle } from 'lucide-react';
@@ -72,7 +73,21 @@ export function ProjectList({ refreshTrigger }: ProjectListProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-8 text-gray-600 dark:text-gray-300">Loading projects...</div>;
+    return (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Card key={i}>
+            <CardHeader className="pb-3">
+              <Skeleton className="h-4 w-1/2" />
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Skeleton className="h-3 w-full" />
+              <Skeleton className="h-3 w-full" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
   }
 
   if (error) {
