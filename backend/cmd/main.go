@@ -90,6 +90,7 @@ func main() {
 	projects.Post("/", projectHandler.CreateProject)
 	projects.Get("/", projectHandler.GetAllProjects)
 	projects.Get("/:id", projectHandler.GetProject)
+	projects.Get("/:id/logs", projectHandler.StreamLogs)
 	projects.Delete("/:id", projectHandler.DeleteProject)
 
 	// Health check
