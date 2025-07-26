@@ -8,15 +8,15 @@ import (
 	"path/filepath"
 	"template-manager-backend/internal/domain"
 
-	"github.com/google/go-github/v57/github"
+	"github.com/google/go-github/v74/github"
 	"golang.org/x/oauth2"
 )
 
 // gitService implementa domain.GitService
 type gitService struct {
-	client    *github.Client
-	token     string
-	username  string
+	client   *github.Client
+	token    string
+	username string
 }
 
 // NewGitService cria uma nova instância do serviço Git
@@ -50,14 +50,14 @@ func (s *gitService) CreateRepository(ctx context.Context, name, description str
 		Private:     github.Bool(false),
 	}
 
-       owner := ""
-       if s.username != "" {
-               owner = s.username
-       }
-       createdRepo, _, err := s.client.Repositories.Create(ctx, owner, repo)
-       if err != nil {
-               return "", fmt.Errorf("failed to create repository: %w", err)
-       }
+	owner := ""
+	if s.username != "" {
+		owner = s.username
+	}
+	createdRepo, _, err := s.client.Repositories.Create(ctx, owner, repo)
+	if err != nil {
+		return "", fmt.Errorf("failed to create repository: %w", err)
+	}
 
 	return createdRepo.GetCloneURL(), nil
 }
@@ -96,7 +96,7 @@ func (s *gitService) PushToRepository(ctx context.Context, localPath, repoURL st
 	cmd = exec.CommandContext(ctx, "git", "push", "-u", "origin", "main")
 	cmd.Dir = localPath
 	cmd.Env = append(os.Environ(), fmt.Sprintf("GIT_ASKPASS=echo"), fmt.Sprintf("GIT_USERNAME=%s", s.username), fmt.Sprintf("GIT_PASSWORD=%s", s.token))
-	
+
 	return cmd.Run()
 }
 
